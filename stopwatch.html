@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        body{
+            background-color: rgb(238, 215, 215);
+        }
+
+        .cot{
+            background-color: white;
+            width: 300px;
+            height: auto;
+            margin: 170px auto;
+            border-radius: 20px;
+            border:7px solid black;
+            text-align: center;
+        }
+
+        .cot1{
+            margin: auto;
+            margin-top: 80px;
+            font-weight: bold;
+            font-size: 36px;
+        }
+
+        .cot2{
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        button{
+            margin: 2px;
+            font-weight: bold;
+            padding: 10px;
+            border-radius: 8px;
+            font-size: 16px;
+            color: white;
+        }
+
+        .btn1{
+            background-color: red;
+        }
+
+        .btn2{
+            background-color: blueviolet;
+        }
+
+        .btn3{
+            background-color: grey;
+        }
+
+    </style>
+</head>
+<body>
+    <div class="cot">
+        <div class="cot1" id="cont">00 : 00 : 00 :00</div>
+        <br><br>
+        <div class="cot2">
+          <button class="btn1" id="btn1">Start</button>
+          <button class="btn2" id="btn2">Stop</button>
+          <button class="btn3" id="btn3">Reset</button>
+        </div>
+  </div>
+  <script>
+    let timer=null
+        let starttime=0
+        let ellapsetime=0
+        let isrunning=false
+
+        document.getElementById("btn1").onclick=function start(){
+            if(!isrunning){
+                timer=setInterval(update,10)
+                starttime=Date.now()-ellapsetime
+                isrunning=true
+            }
+        }
+
+        document.getElementById("btn2").onclick=function stop(){
+            if(isrunning){
+                clearInterval(timer)
+                isrunning=false
+                ellapsetime=Date.now()-starttime
+            }
+        }
+
+        document.getElementById("btn3").onclick=function reset(){
+            clearInterval(timer)
+            starttime=0
+            ellapsetime=0
+            isrunning=false
+            document.getElementById("cont").textContent=`00 : 00 : 00 : 00`
+
+        }
+
+        function update(){
+            ellapsetime=Date.now()-starttime
+            let hours=Math.floor(ellapsetime/(1000*60*60))
+            let min=Math.floor(ellapsetime/(1000*60)%60)
+            let sec=Math.floor(ellapsetime/1000%60)
+            let ms=Math.floor(ellapsetime%1000/10)
+            hours=String(hours).padStart(2,'0')
+            min=String(min).padStart(2,'0')
+            sec=String(sec).padStart(2,'0')
+            ms=String(ms).padStart(2,'0')
+            document.getElementById("cont").textContent=`${hours} : ${min} : ${sec} : ${ms}`
+        }
+
+
+  </script>
+</body>
+</html>
